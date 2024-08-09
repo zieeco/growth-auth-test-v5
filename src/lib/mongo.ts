@@ -15,7 +15,7 @@ const options = {
 };
 
 let client;
-let clientPromise: Promise<MongoClient>;
+let clientPromise: Promise<MongoClient> | undefined;
 
 if (process.env.NODE_ENV === 'development') {
 	// In development mode, use a global variable so that the value
@@ -40,4 +40,3 @@ if (process.env.NODE_ENV === 'development') {
 // Export a module-scoped MongoClient. By doing this in a
 // separate module, the client can be shared across functions.
 export default clientPromise;
- 
