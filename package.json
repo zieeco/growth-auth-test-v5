@@ -6,7 +6,10 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"lint": "next lint"
+		"lint": "next lint",
+		"format:check": "prettier --check .",
+		"format": "prettier --write .",
+		"prepare": "husky"
 	},
 	"dependencies": {
 		"@auth/mongodb-adapter": "^3.4.2",

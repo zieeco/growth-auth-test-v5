@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+echo "Husky commit-msg hook triggered"
 
-npx --no -- commitlint --edit ${1}
+# npx --no -- commitlint --edit ${1}
+pnpm dlx --no -- commitlint --edit ${1}
