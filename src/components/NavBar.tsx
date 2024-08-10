@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { signIn } from '@/auth';
 import { Button } from './ui/button';
 import UserButton from './UserButton';
+import getSession from '@/lib/getSession';
 
 function SignInButton() {
   return (
@@ -18,7 +19,7 @@ function SignInButton() {
 }
 
 export default async function NavBar() {
-  const session = await auth();
+  const session = await getSession();
   const user = session?.user;
   return (
     <header className="sticky top-0 bg-background px-3 shadow-sm">
