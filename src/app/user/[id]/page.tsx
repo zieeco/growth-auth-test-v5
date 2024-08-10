@@ -5,8 +5,6 @@ import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { Types } from 'mongoose';
 import { ObjectId } from 'mongodb';
-// import avatarPlaceholder from '@/assets/images/avatar_placeholder.png';
-
 
 interface PageProps {
   params: { id: string };
@@ -17,7 +15,7 @@ const getUser = cache(async (id: string) => {
 
   if (!Types.ObjectId.isValid(id)) return null;
 
-  const user = await User.findById(id, 'id name image createdAt').lean();
+  const user = await User.findById(id, 'id name image createdAt');
   console.log('date created', user?.createdAt?.toLocaleDateString());
 
   return user ? user : null;
@@ -43,6 +41,7 @@ export default async function Page({ params: { id } }: PageProps) {
   await new Promise((resolve) => setTimeout(resolve, 1500));
 
   const user = await getUser(id);
+  console.log('checking the user', user);
 
   if (!user) notFound();
 
