@@ -1,13 +1,24 @@
-// "use server";
+'use server';
 
-// import { UpdateProfileValues, updateProfileSchema } from "@/lib/validation";
+import { auth } from '@/auth';
+import connectDB from '@/lib/db';
+import { UpdateProfileValues, updateProfileSchema } from '@/lib/validation';
+import { revalidatePath } from 'next/cache';
+import User from '@/models/User';
 
-// // To learn more about server actions, watch my YT tutorial: https://www.youtube.com/watch?v=XD5FpbVpWzk
+export async function updateProfile(values: UpdateProfileValues) {
+  const session = await auth();
+  const userId = session?.user?.id;
+  console.log('the user ID::', userId);
 
-// export async function updateProfile(values: UpdateProfileValues) {
-//   // TODO: Get the currently authenticated user
+  if (!userId) {
+    throw Error('Unauthorized');
+  }
 
-//   const { name } = updateProfileSchema.parse(values);
+  const { name } = updateProfileSchema.parse(values);
 
-//   // TODO: Update user
-// }
+  await connectDB();
+  await User.findByIdAndUpdate(userId, { name }, { new: true });
+
+  revalidatePath('/');
+}
