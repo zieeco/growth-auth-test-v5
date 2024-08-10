@@ -3,7 +3,7 @@ interface UserDocument extends Document {
   name: string;
   email: string;
   password?: string;
-  role: string;
+  role?: string;
   image?: string;
   authProviderId?: string;
   createdAt: Date;
