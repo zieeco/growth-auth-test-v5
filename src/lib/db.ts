@@ -3,26 +3,25 @@ import mongoose, { Error as MongooseError } from 'mongoose';
 const { MONGODB_URI } = process.env;
 
 if (!MONGODB_URI) {
-  throw new MongooseError('Invalid environment variable');
+  throw new MongooseError(
+    'Invalid/Missing environment variable: "MONGODB_URI"',
+  );
 }
 
-const connectDB = async (): Promise<boolean> => {
+const connectDB = async () => {
   try {
     const { connection } = await mongoose.connect(MONGODB_URI, {});
+
     if (connection.readyState === 1) {
       console.log('MongoDB connected successfully');
-      return true;
     } else {
       throw new MongooseError('MongoDB connection not ready');
     }
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error(`Error connecting to MongoDB: ${error.message}`);
-    } else {
-      console.error('An unknown error occurred while connecting to MongoDB');
-    }
+  } catch (error: unknown) {
+    console.error(
+      `Error connecting to MongoDB: ${error instanceof Error ? error.message : 'Unknown error'}`,
+    );
     process.exit(1);
-    return Promise.reject(error);
   }
 };
 
