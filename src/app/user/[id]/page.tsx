@@ -4,22 +4,27 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { Types } from 'mongoose';
+import { ObjectId } from 'mongodb';
+// import avatarPlaceholder from '@/assets/images/avatar_placeholder.png';
+
 
 interface PageProps {
   params: { id: string };
 }
 
-await connectDB();
-
 const getUser = cache(async (id: string) => {
+  await connectDB();
+
   if (!Types.ObjectId.isValid(id)) return null;
 
-  const user = await User.findById(id, 'id name image createdAt');
+  const user = await User.findById(id, 'id name image createdAt').lean();
+  console.log('date created', user?.createdAt?.toLocaleDateString());
 
-  return user ? user.toObject() : null;
+  return user ? user : null;
 });
 
 export async function generateStaticParams() {
+  await connectDB();
   const allUsers = await User.find({}, '_id').lean();
 
   return allUsers.map(({ _id }) => ({ id: _id.toString() }));
