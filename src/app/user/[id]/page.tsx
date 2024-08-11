@@ -16,7 +16,6 @@ const getUser = cache(async (id: string) => {
   if (!Types.ObjectId.isValid(id)) return null;
 
   const user = await User.findById(id, 'id name image createdAt');
-  console.log('date created', user?.createdAt?.toLocaleDateString());
 
   return user ? user : null;
 });
@@ -41,7 +40,6 @@ export default async function Page({ params: { id } }: PageProps) {
   await new Promise((resolve) => setTimeout(resolve, 1500));
 
   const user = await getUser(id);
-  console.log('checking the user', user);
 
   if (!user) notFound();
 

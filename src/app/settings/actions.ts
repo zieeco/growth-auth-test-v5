@@ -9,7 +9,6 @@ import User from '@/models/User';
 export async function updateProfile(values: UpdateProfileValues) {
   const session = await auth();
   const userId = session?.user?.id;
-  console.log('the user ID::', userId);
 
   if (!userId) {
     throw Error('Unauthorized');

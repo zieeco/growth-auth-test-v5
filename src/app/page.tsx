@@ -6,13 +6,11 @@ import connectDB from '@/lib/db';
 export default async function Home() {
   await connectDB();
   const users = await User.find({}).lean();
-  console.log('all the users', users)
 
-  console.log('Hey users:', users);
   const currentYear = new Date().getFullYear();
   return (
     <main className="flex flex-col items-center gap-6 px-3 py-10">
-      <h1 className="text-center text-4xl font-bold">{`Growth-${currentYear} Auth Dem`}</h1>
+      <h1 className="text-center text-4xl font-bold">{`Growth-${currentYear} Auth Demo`}</h1>
       <h2 className="text-center text-2xl font-semibold">Users</h2>
       <ul className="list-inside list-disc">
         {users.map((user) => (
