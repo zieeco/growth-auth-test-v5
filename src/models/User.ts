@@ -1,4 +1,16 @@
 import { Model, model, models, Document, Schema, Types } from 'mongoose';
+
+interface Accounts {
+  accessToken: string;
+  refreshToken: string;
+  expiresAt: number;
+  scope: string;
+  tokenType: string;
+  providerAccountId: string;
+  provider: string;
+}
+
+
 interface UserDocument extends Document {
   name: string;
   email: string;
@@ -7,7 +19,7 @@ interface UserDocument extends Document {
   role?: string;
   image?: string;
   authProviderId?: string;
-  accounts?: Types.ObjectId[];
+  accounts?: Accounts[];
   sessions?: Types.ObjectId[];
   createdAt: Date;
   updatedAt: Date;
@@ -22,7 +34,15 @@ const userSchema: Schema<UserDocument> = new Schema(
     role: { type: String, default: 'user' },
     image: { type: String },
     authProviderId: { type: String },
-    accounts: [{ type: Schema.Types.ObjectId, ref: 'Account' }],
+    accounts: [{
+      accessToken: { type: String },
+      refreshToken: { type: String },
+      expiresAt: { type: Number },
+      scope: { type: String },
+      tokenType: { type: String },
+      providerAccountId: { type: String },
+      provider: { type: String },
+    }],
     sessions: [{ type: Schema.Types.ObjectId, ref: 'Session' }],
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
